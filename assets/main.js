@@ -4,8 +4,77 @@
 /**
  * @name YAWO4YARG - Yet Another Widget Overlay for Yet Another Rhythm Game
  * @author Pantotone
- * @githubRepo https://github.com/Pantotone/YARG-OBS-Widget
+ * @githubRepo https://github.com/Pantotone/YAWO4YARG
  */
+
+class SettingsLoader {
+
+    /** @type {string} */
+    settingsRootPath = "settings";
+    /** @type {Map<string, any>} */
+    settings = new Map();
+
+    constructor() {
+        this.load();
+    }
+    
+    /**
+     * Get setting, if not available it'll perform a reload and return setting if available.
+     * @param {string} key 
+     */
+    async get(key) {
+        const isAvailable = this.settings.has(key);
+        
+        if(!isAvailable) {
+            await this.load();    
+        }
+
+        return this.settings.get(key);
+    }
+
+    /**
+     * Perform all loads and save to internal settings cache.
+     */
+    async load() {
+        const loaders = [
+            this.loadAsString("CurrentSongFilePath.txt", "currentSongFilePath")
+        ];
+    
+        return await Promise.all(loaders); 
+    }
+
+    /**
+     * Loads text from setting file and adds to the settings list as string.
+     * @param {string} path 
+     * @param {string} key 
+     */
+    async loadAsString(path, key) {
+        try {
+            const raw = await readFile(`${this.settingsRootPath}/${path}`);
+            this.settings.set(key, raw.trim());
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    /**
+     * Loads text from setting file, 
+     * @param {string} path 
+     * @param {string} key 
+     * @param {string} [separator]
+     */
+    async loadAsArray(path, key, separator = ",") {
+        try {
+            const raw = await readFile(`${this.settingsRootPath}/${path}`);
+            const array = raw.split(separator).map(word => word.trim());
+
+            this.settings.set(key, array);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+}
 
 /**
  * @classdesc Clock that triggers the main updates through the code

@@ -15,33 +15,21 @@
 
 # 📥 How to install
 
-1. Download and unzip this repository. You can do by [clicking here](https://github.com/Pantotone/YAWO4YARG/archive/refs/heads/main.zip).
+1. Download and extract this repository. You can do by [clicking here](https://github.com/Pantotone/YAWO4YARG/archive/refs/heads/main.zip).
 
-2. Find where the `currentSong.json` is stored. By default, the file is located on YARG's app data folder. 
-
-    You can find by two ways:
-
-    2.1. Copying the path from the settings.
+2. Copy where the `currentSong.json` is stored.
     
-    - Open YARG
-    - Go to Settings
-    - In File Managment Section, click `Copy Current Song JSON File Path`
-    - Go to your Finder/Explorer, and paste/follow the path that's now on your clipboard.
+    2.1. Open YARG
 
-    2.2. Find manually your app data.
+    2.2. Go to Settings
 
-    Here are the default paths for YARG's app data on each system.
+    2.3. In File Managment Section, click `Copy Current Song JSON File Path`
 
-    > Some folders might be hidden by your system. 
+3. On the extracted widget folder, go to `settings` folder, open `CurrentSongFilePath.txt` with a text or code editor, paste inside and save it.
 
-    - Windows: `C:\Users\<your username>\AppData\LocalLow\YARC\YARG`
-    - Mac: `/Users/<your username>/Library/Application Support/YARC/YARG`
-    - Linux: `~/.config/unity3d/YARC/YARG`
-
-3. Extract this repository inside the YARG's app data folder.
 4. Create a new Browser Source on your OBS.
 
-    - On the browser settings, mark "Local file", and locate the extracted folder and select `YARG Widget.html`
+    - On the browser settings, mark "Local file", and locate the extracted widget folder and select `YARG Widget.html`
     - Set the width as `1920` and height as `260`. If it's too big, you can resize the widget on your canvas after you add it.
 
 5. **(optional)** Change current instrument on widget.

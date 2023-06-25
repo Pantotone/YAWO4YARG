@@ -29,7 +29,10 @@
 
     <script src="assets/main.js"></script>
     <script defer>
-        const informationManager = new InformationManager({jsonPath: "../currentSong.json"});
+        const settings = new SettingsLoader();
+
+        const informationManager = new InformationManager();
+        settings.get("currentSongFilePath").then(jsonPath => informationManager.applySettings({jsonPath}));
 
         const mainContainer = document.getElementById("nowplaying");
 
