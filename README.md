@@ -36,12 +36,15 @@
 
     5.2. Place what instrument you'll be playing
 
-    > **Warning:** This is case-sensitive.
-
-    - You can put multiple instruments separated by a comma (example: `GUITAR,GUITAR_COOP,RHYTHM,BASS,KEYS`) so you don't have to change mid-screen in case a chart doesn't have specified instrument.
-    - It'll show the first available instrument on the list, even if you're playing another instrument, so prioritize the instrument you'll be mostly playing.
-    - In case you want to change the instrument mid-stream, just change the `Instrument.txt` and click `Refresh` on the Browser Source in OBS.
+    > **Warning:** 
+    > 
+    > This is case-sensitive.
 
     > Available instruments:
     >
     > `GUITAR` - `GUITAR_COOP` - `REAL_GUITAR` - `RHYTHM` - `BASS` - `REAL_BASS` - `DRUMS` - `GH_DRUMS` - `REALDRUMS` - `KEYS` - `REAL_KEYS` - `VOCALS` - `HARMONY`
+
+
+    - You can put multiple instruments separated by a comma (example: `GUITAR,GUITAR_COOP,RHYTHM,BASS,KEYS`) so you don't have to change mid-screen in case a chart doesn't have specified instrument.
+    - It'll show the first available instrument on the list, even if you're playing another instrument, so prioritize the instrument you'll be mostly playing.
+    - In case you want to change the instrument mid-stream, just change the `Instrument.txt` and click `Refresh` on the Browser Source in OBS.
