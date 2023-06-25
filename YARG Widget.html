@@ -12,10 +12,7 @@
 
         <div class="album">
             <img src="" id="albumArt" />
-
-            <!-- Available instruments to use: -->
-            <!-- GUITAR, GUITAR_COOP, REAL_GUITAR, RHYTHM, BASS, REAL_BASS, DRUMS, GH_DRUMS, REALDRUMS, KEYS, REAL_KEYS, VOCALS, HARMONY -->
-            <div class="instrument" data-type="GUITAR" data-difficulty="4"></div>
+            <div class="instrument"></div>
         </div>
 
         <div class="info">
@@ -33,6 +30,7 @@
 
         const informationManager = new InformationManager();
         settings.get("currentSongFilePath").then(jsonPath => informationManager.applySettings({jsonPath}));
+        settings.get("selectedInstruments").then(selectedInstruments => informationManager.applySettings({selectedInstruments}));
 
         const mainContainer = document.getElementById("nowplaying");
 
@@ -42,6 +40,7 @@
                 songNameContainer: mainContainer.querySelector("#songName"),
                 artistNameContainer: mainContainer.querySelector("#artistName"),
                 albumArtElement: mainContainer.querySelector("#albumArt"),
+                instrumentIconElement: mainContainer.querySelector(".instrument"),
                 difficultyRingElement: mainContainer.querySelector(".instrument")
             } : undefined
         );

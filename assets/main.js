@@ -37,7 +37,8 @@ class SettingsLoader {
      */
     async load() {
         const loaders = [
-            this.loadAsString("CurrentSongFilePath.txt", "currentSongFilePath")
+            this.loadAsString("CurrentSongFilePath.txt", "currentSongFilePath"),
+            this.loadAsArray("Instrument.txt", "selectedInstruments")
         ];
     
         return await Promise.all(loaders); 
@@ -127,6 +128,7 @@ class MainClock {
 /**
  * @typedef {Object} InformationManagerOptions
  * @property {string} [jsonPath]
+ * @property {string[]} [selectedInstruments]
  */
 
 /**
@@ -136,7 +138,13 @@ class MainClock {
 class InformationManager {
     
     // Default settings
+
+    /** @type {string} */
     jsonPath = "currentSong.json";
+    
+    /** @type {string[]} */
+    selectedInstruments = [];
+
     
     // Internal
     /** @type {string} */
@@ -191,6 +199,15 @@ class InformationManager {
     }
 
     /**
+     * Get first available instrument on selectedInstruments list
+     * @param {PartDifficulties} songParts 
+     */
+    getSelectedInstrument(songParts) {
+        const selected = this.selectedInstruments.find(instrument => songParts[instrument] > -1);
+        return selected;
+    }
+
+    /**
      * Sends a notification to another subscribed classes about a song change.
      * @param {string} updated 
      */
@@ -201,8 +218,15 @@ class InformationManager {
 
             const AlbumArt_Base64 = await this.getAlbumArt(jsonObj.Location);
 
-            /** @type {currentSongWithAlbumArt} */
-            const updatedJson = {...jsonObj, AlbumArt_Base64};
+            const instrument = this.getSelectedInstrument(jsonObj.PartDifficulties);
+
+            const SelectedInstrument = instrument ? {
+                instrument,
+                difficulty: jsonObj.PartDifficulties[instrument]
+            } : undefined
+
+            /** @type {ExtendedCurrentSong} */
+            const updatedJson = {...jsonObj, AlbumArt_Base64, SelectedInstrument};
 
             this._updateCallbacks.forEach(func => func(updatedJson));
         } catch (e) {
@@ -212,7 +236,7 @@ class InformationManager {
 
     /**
      * Adds a callback function to be notified when a song changes
-     * @param {(currentSong: currentSongWithAlbumArt) => any} func 
+     * @param {(currentSong: ExtendedCurrentSong) => any} func 
      */
     onChange(func) {
         this._updateCallbacks.add(func);
@@ -237,6 +261,7 @@ class InformationManager {
  * @property {HTMLElement|null} songNameContainer
  * @property {HTMLElement|null} artistNameContainer
  * @property {HTMLElement|null} albumArtElement
+ * @property {HTMLElement|null} instrumentIconElement
  * @property {HTMLElement|null} difficultyRingElement
  */
 
@@ -253,6 +278,8 @@ class SongRender {
     artistNameContainer = null;
     /** @type {HTMLElement|null} */
     albumArtElement = null;
+    /** @type {HTMLElement|null} */
+    instrumentIconElement = null;
     /** @type {HTMLElement|null} */
     difficultyRingElement = null;
     
@@ -285,34 +312,32 @@ class SongRender {
         this.songNameContainer?.replaceChildren(textNode);
     }
 
-    /** @param {string} imageURL */
+    /** @param {string} [imageURL] */
     setAlbumArt(imageURL) {
         if(this.albumArtElement instanceof HTMLImageElement) {
-            this.albumArtElement.src = imageURL;
+            this.albumArtElement.src = imageURL || "";
         };
     }
 
     /**
-     * Fetch the current instrument used by the Difficulty Ring Element inside the container.
-     * @returns {string | undefined}
+     * @param {string} [instrument] 
      */
-    getInstrumentType() {
-        if(!this.difficultyRingElement) return;
-        const type = this.difficultyRingElement.dataset.type;
-        return type?.toUpperCase();
+    setInstrumentIcon(instrument) {
+        if(!this.instrumentIconElement) return;
+        setAttributeToElement(this.instrumentIconElement, "type", instrument);
     }
 
     /**
-     * @param {number} difficulty
+     * @param {number} [difficulty]
      */
     setDifficultyRing(difficulty) {
         if(!this.difficultyRingElement) return;
-        this.difficultyRingElement.dataset.difficulty = difficulty.toString();
+        setAttributeToElement(this.difficultyRingElement, "difficulty", difficulty?.toString());
     }
 
     /**
      * Receives the updated current song and performs the changes inside the DOM
-     * @param {currentSongWithAlbumArt} [currentSong] 
+     * @param {ExtendedCurrentSong} [currentSong]
      */
     handleEvent(currentSong) {
         if(!this.mainContainer) return;
@@ -324,10 +349,9 @@ class SongRender {
         this.setArtistName(currentSong.Artist);
         this.setAlbumArt(currentSong.AlbumArt_Base64);
 
-        const instrumentType = this.getInstrumentType();
-        if(instrumentType) {
-            this.setDifficultyRing(currentSong.PartDifficulties[instrumentType]);
-        }
+        const instrumentType = currentSong.SelectedInstrument;
+        this.setInstrumentIcon(instrumentType?.instrument);
+        this.setDifficultyRing(instrumentType?.difficulty);
     }
     
 }
@@ -375,6 +399,22 @@ async function readFile(path, options) {
 
         request.send(null);
     });
+}
+
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @param {string} key 
+ * @param {string} [value] 
+ */
+function setAttributeToElement(element, key, value) {
+    if(!element || !key) throw new Error("setAttributeToElement: Missing element/key");
+
+    if(value) {
+        element.dataset[key] = value
+    } else {
+        element.removeAttribute(`data-${key}`);
+    }
 }
 
 /**
@@ -439,5 +479,11 @@ async function readFile(path, options) {
  */
 
 /**
- * @typedef {currentSong & {AlbumArt_Base64: string}} currentSongWithAlbumArt
+ * @typedef {Object} SelectedInstrument
+ * @property {string} instrument
+ * @property {number} difficulty
+ */
+
+/**
+ * @typedef {currentSong & {AlbumArt_Base64?: string, SelectedInstrument?: SelectedInstrument}} ExtendedCurrentSong
  */
