@@ -1,6 +1,6 @@
 ## 📺 **YAWO4YARG** - *Yet Another Widget Overlay for Yet Another Rhythm Game*
 
-#### A Widget overlay compatible with [OBS](https://obsproject.com) that shows the current song with album artwork and difficulty/source icon being played on [Yet Another Rhythm Game](https://github.com/YARC-Official/YARG).
+#### A Widget overlay compatible with [OBS](https://obsproject.com) (28.0.1 and newer) that shows the current song with album artwork and difficulty/source icon being played on [Yet Another Rhythm Game](https://github.com/YARC-Official/YARG).
 
 
 ---
