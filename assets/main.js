@@ -151,6 +151,10 @@ class InformationManager {
     _content = "";
     /** @type {Set<Function>} */
     _updateCallbacks = new Set();
+    /** @type {SourceIndex|undefined} */
+    _baseSourceCache = undefined;
+    /** @type {SourceIndex|undefined} */
+    _extraSourceCache = undefined;
 
     /**
      * @constructor
@@ -158,6 +162,24 @@ class InformationManager {
      */
     constructor(options) {
         this.applySettings(options);
+
+        // Loading source index into memory
+        [
+            "https://raw.githubusercontent.com/YARC-Official/OpenSource/master/base/index.json",
+            "https://raw.githubusercontent.com/YARC-Official/OpenSource/master/extra/index.json"
+        ].forEach(jsonUrl => {
+
+            fetch(jsonUrl)
+            .then(res => res.json())
+            .then(sourceIndex => {
+                if(sourceIndex.type === "base") {
+                    this._baseSourceCache = sourceIndex;
+                } else {
+                    this._extraSourceCache = sourceIndex;
+                }
+            });
+
+        });
     }
 
     /**
@@ -208,6 +230,25 @@ class InformationManager {
     }
 
     /**
+     * Gets Source Icon URL from @YARC-Official/OpenSource repo indexes.
+     * @param {string} sourceName 
+     */
+    getSourceIconURL(sourceName) {
+        if(!this._baseSourceCache || !this._extraSourceCache) return;
+
+        const baseSource = this._baseSourceCache.sources.find(source => source.ids.includes(sourceName));
+        const extraSource = this._extraSourceCache.sources.find(source => source.ids.includes(sourceName));
+
+        const sourceIndex = baseSource ? "base" : "extra";
+        const source = baseSource || extraSource;
+        if(source) {
+            return `https://raw.githubusercontent.com/YARC-Official/OpenSource/master/${sourceIndex}/icons/${source.icon}.png`;
+        }
+
+        return "https://raw.githubusercontent.com/YARC-Official/OpenSource/master/base/icons/custom.png";
+    }
+
+    /**
      * Sends a notification to another subscribed classes about a song change.
      * @param {string} updated 
      */
@@ -225,8 +266,10 @@ class InformationManager {
                 difficulty: jsonObj.PartDifficulties[instrument]
             } : undefined
 
+            const SourceIconURL = this.getSourceIconURL(jsonObj.Source);
+
             /** @type {ExtendedCurrentSong} */
-            const updatedJson = {...jsonObj, AlbumArt_Base64, SelectedInstrument};
+            const updatedJson = {...jsonObj, AlbumArt_Base64, SelectedInstrument, SourceIconURL};
 
             this._updateCallbacks.forEach(func => func(updatedJson));
         } catch (e) {
@@ -282,6 +325,8 @@ class SongRender {
     instrumentIconElement = null;
     /** @type {HTMLElement|null} */
     difficultyRingElement = null;
+    /** @type {HTMLElement|null} */
+    sourceIconElement = null;
     
 
     /**
@@ -335,6 +380,13 @@ class SongRender {
         setAttributeToElement(this.difficultyRingElement, "difficulty", difficulty?.toString());
     }
 
+    /** @param {string} [iconURL] */
+    setSourceIcon(iconURL) {
+        if(this.sourceIconElement instanceof HTMLImageElement) {
+            this.sourceIconElement.src = iconURL || "";
+        };
+    }
+
     /**
      * Receives the updated current song and performs the changes inside the DOM
      * @param {ExtendedCurrentSong} [currentSong]
@@ -348,6 +400,7 @@ class SongRender {
         this.setSongName(currentSong.Name);
         this.setArtistName(currentSong.Artist);
         this.setAlbumArt(currentSong.AlbumArt_Base64);
+        this.setSourceIcon(currentSong.SourceIconURL);
 
         const instrumentType = currentSong.SelectedInstrument;
         this.setInstrumentIcon(instrumentType?.instrument);
@@ -485,5 +538,19 @@ function setAttributeToElement(element, key, value) {
  */
 
 /**
- * @typedef {currentSong & {AlbumArt_Base64?: string, SelectedInstrument?: SelectedInstrument}} ExtendedCurrentSong
+ * @typedef {currentSong & {AlbumArt_Base64?: string, SourceIconURL?: string, SelectedInstrument?: SelectedInstrument}} ExtendedCurrentSong
+ */
+
+/**
+ * @typedef {Object} SourceIndex
+ * @property {string} type
+ * @property {Source[]} sources
+ */
+
+/**
+ * @typedef {Object} Source
+ * @property {string[]} ids
+ * @property {{[key: string]: string}} names
+ * @property {string} icon
+ * @property {string} type
  */
