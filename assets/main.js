@@ -212,7 +212,7 @@ class InformationManager {
      */
     async getAlbumArt(songLocation) {
         const acceptedFileNames = ["album.png", "album.jpg", "album.jpeg"];
-        const fetchers = acceptedFileNames.map(fileName => readFile(`${songLocation}/${fileName}`, {base64: true}));
+        const fetchers = acceptedFileNames.map(fileName => readFile(absolutePath(`${songLocation}/${fileName}`), {base64: true}));
         
         /** @type {string} */
         // @ts-ignore Typescript apparently doesn't have types for Promise.any, here's the docs anyway: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any
@@ -290,7 +290,7 @@ class InformationManager {
      * Loop function that is trigged by the global timer
      */
     async update() {
-        const newUpdate = await readFile(this.jsonPath);
+        const newUpdate = await readFile(absolutePath(this.jsonPath));
         const isUpdated = this.checkChanges(newUpdate);
 
         if(isUpdated) {
@@ -451,7 +451,7 @@ async function readFile(path, options) {
             file.readAsDataURL(request.response);
         }
 
-        request.send(null);
+        request.send();
     });
 }
 
@@ -469,6 +469,14 @@ function setAttributeToElement(element, key, value) {
     } else {
         element.removeAttribute(`data-${key}`);
     }
+}
+
+/**
+ * Generates a URL using http://absolute protocol for local files.
+ * @param {string} path 
+ */
+function absolutePath(path) {
+    return `http://absolute/${path}`;
 }
 
 /**
