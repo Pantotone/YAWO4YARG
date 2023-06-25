@@ -46,12 +46,30 @@ body {
     width: 100%;
 }
 
+.album > .instrument,
+.album > .source {
+    display: none;
+}
+
+.album[data-small="source"] > .source,
+.album[data-small="instrument"] > .instrument {
+    display: block;
+}
+
 .album > .instrument {
     position: absolute;
     bottom: 10px;
     right: 0px;
     z-index: 2;
     transition: transform .5s calc(0.2s * var(--isOpening)) ease;
+}
+
+.album > .source {
+    position: absolute;
+    bottom: -10px;
+    right: -20px;
+    z-index: 2;
+    width: 130px;
 }
 
 .info {
@@ -118,11 +136,11 @@ body {
 }
 
 .instrument {
-    display: none;
+    opacity: 0;
 }
 
 .instrument[data-type] {
-    display: block;
+    opacity: 1;
 }
 
 .instrument[data-type="GUITAR_COOP" i] {

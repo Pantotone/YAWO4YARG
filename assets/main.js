@@ -38,6 +38,7 @@ class SettingsLoader {
     async load() {
         const loaders = [
             this.loadAsString("CurrentSongFilePath.txt", "currentSongFilePath"),
+            this.loadAsString("DisplaySmallIcon.txt", "displaySmallIcon"),
             this.loadAsArray("Instrument.txt", "selectedInstruments")
         ];
     

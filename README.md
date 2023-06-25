@@ -1,6 +1,6 @@
 ## 📺 **YAWO4YARG** - *Yet Another Widget Overlay for Yet Another Rhythm Game*
 
-#### A Widget overlay compatible with [OBS](https://obsproject.com) that shows the current song with album artwork and difficulty being played on [Yet Another Rhythm Game](https://github.com/YARC-Official/YARG).
+#### A Widget overlay compatible with [OBS](https://obsproject.com) that shows the current song with album artwork and difficulty/source icon being played on [Yet Another Rhythm Game](https://github.com/YARC-Official/YARG).
 
 
 ---
@@ -28,13 +28,29 @@
     - On the browser settings, mark "Local file", and locate the extracted widget folder and select `YARG Widget.html`
     - Set the width as `1920` and height as `260`. If it's too big, you can resize the widget on your canvas after you add it.
 
-5. **(optional)** Change current instrument on widget.
+5. **(optional)** Change small icon beside the rim on widget.
+
+    By default, thw widget will show the instrument with the 
+
+    5.1. On the extracted widget folder, go to `settings` folder, and open `DisplaySmallIcon.txt` with a text or code editor.
+
+    5.2. Place what you want to display on the small icon and save it.
+
+    > Available icons: (not case-sensitive)
+    >
+    > `instrument` (default) - will show the instrument being played along with the difficulty ring.
+    >
+    > `source` - will show the icon for the chart source. *(grabbed from [YARC-Official/OpenSource](https://github.com/YARC-Official/OpenSource))*
+    >
+    > `none` - will not show anything on the small icon.
+
+6. **(optional)** Change current instrument on widget.
 
     As for now, the widget isn't able to detect what instrument is being played. In case you're playing an instrument that's not Guitar, you might need to change inside the settings.
 
-    5.1. On the extracted widget folder, go to `settings` folder, and open `Instrument.txt` with a text or code editor.
+    6.1. On the extracted widget folder, go to `settings` folder, and open `Instrument.txt` with a text or code editor.
 
-    5.2. Place what instrument you'll be playing
+    6.2. Place what instrument you'll be playing
 
     > **Warning** 
     > This is case-sensitive.

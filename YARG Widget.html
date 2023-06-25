@@ -10,9 +10,12 @@
 
     <div id="nowplaying" data-playing="false">
 
-        <div class="album">
+        <div class="album" data-small="instrument">
             <img src="" id="albumArt" />
             <div class="instrument"></div>
+            <div class="source">
+                <img src="" id="sourceIcon"/>
+            </div>
         </div>
 
         <div class="info">
@@ -34,12 +37,20 @@
 
         const mainContainer = document.getElementById("nowplaying");
 
+        settings.get("displaySmallIcon").then(displaySmallIcon => {
+            const albumElement = mainContainer?.querySelector(".album");
+            if(!(albumElement instanceof HTMLElement)) return;
+
+            albumElement.dataset.small = displaySmallIcon.trim().toLowerCase()
+        });
+
         const songRender = new SongRender(
             mainContainer ? {
                 mainContainer: mainContainer,
                 songNameContainer: mainContainer.querySelector("#songName"),
                 artistNameContainer: mainContainer.querySelector("#artistName"),
                 albumArtElement: mainContainer.querySelector("#albumArt"),
+                sourceIconElement: mainContainer.querySelector("#sourceIcon"),
                 instrumentIconElement: mainContainer.querySelector(".instrument"),
                 difficultyRingElement: mainContainer.querySelector(".instrument")
             } : undefined
