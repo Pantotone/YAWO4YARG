@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700;900&display=swap');
+
+:root {
+    --circleImage: url("Rim.png");
+    --fontSprites: url("FontSprites.png");
+    --difficultyRingsImage: url("DifficultyRings.png");
+    --mainColor: #fff;
+}
+
+body {
+    font-family: 'Red Hat Display', sans-serif;
+    color: var(--mainColor);
+}
+
+#nowplaying {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    --isOpening: 1;
+    --isExiting: 0;
+}
+
+.album {
+    width: 256px;
+    aspect-ratio: 1;
+    position: relative;
+    transition: transform .5s calc(0.2s * var(--isExiting)) ease;
+}
+
+.album img {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    --transform: scale(0.85);
+    transform: var(--transform);
+    transition: transform .5s calc(0.2s * var(--isExiting)) ease;
+}
+
+.album::after {
+    content: "";
+    background: var(--circleImage);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    inset: 3px;
+    width: 100%;
+}
+
+.album > .instrument {
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
+    z-index: 2;
+    transition: transform .5s calc(0.2s * var(--isOpening)) ease;
+}
+
+.info {
+    font-size: 1rem;
+}
+
+#songName {
+    text-transform: uppercase;
+    font-size: 4.5em;
+    font-weight: 900;
+    transition: font-size .3s calc(0.1s * var(--isExiting));
+}
+
+#artistName {
+    text-transform: uppercase;
+    font-size: 2.25em;
+    font-weight: 700;
+    transition: font-size .3s calc(0.1s * var(--isOpening));
+}
+
+#nowplaying[data-playing="false"] {
+    --isExiting: 1;
+    --isOpening: 0;
+}
+
+#nowplaying[data-playing="false"] > .album,
+#nowplaying[data-playing="false"] > .album > .instrument {
+    transform: scale(0);
+}
+
+#nowplaying[data-playing="false"] > .album img {
+    transform: var(--transform) rotate(60deg);
+}
+
+#nowplaying[data-playing="false"] > .info {
+    font-size: 0rem;
+}
+
+/* Instrument Icon */
+
+.instrument {
+    position: relative;
+    --width: 75px;
+    width: var(--width);
+    margin: calc(var(--width) * 0.125);
+    
+    background: var(--fontSprites);
+    --columns: 4;
+    aspect-ratio: 1;
+    background-size: calc(100% * var(--columns));
+
+    --spriteXPosition: 0; /* 0 - 2 */
+    --spriteYPosition: 0; /* 0 - 2 */
+
+    --backgroundPositionX: calc(
+        calc(100% * var(--spriteXPosition)) * -1
+    );
+
+    --backgroundPositionY: calc(
+        calc(100% * var(--spriteYPosition)) * -1
+    );
+
+    background-position: var(--backgroundPositionX) var(--backgroundPositionY);
+}
+
+.instrument {
+    display: none;
+}
+
+.instrument[data-type] {
+    display: block;
+}
+
+.instrument[data-type="GUITAR_COOP" i] {
+    --spriteXPosition: 3;
+    --spriteYPosition: 2;
+}
+
+.instrument[data-type="GUITAR" i] {
+    --spriteXPosition: 1;
+    --spriteYPosition: 0;
+}
+
+.instrument[data-type="REAL_GUITAR" i] {
+    --spriteXPosition: 1;
+    --spriteYPosition: 1;
+}
+
+.instrument[data-type="RHYTHM" i] {
+    --spriteXPosition: 0;
+    --spriteYPosition: 3;
+}
+
+.instrument[data-type="BASS" i] {
+    --spriteXPosition: 0;
+    --spriteYPosition: 0;
+}
+
+.instrument[data-type="REAL_BASS" i] {
+    --spriteXPosition: 0;
+    --spriteYPosition: 1;
+}
+
+.instrument[data-type="DRUMS" i] {
+    --spriteXPosition: 2;
+    --spriteYPosition: 0;
+}
+
+.instrument[data-type="GH_DRUMS" i] {
+    --spriteXPosition: 2;
+    --spriteYPosition: 2;
+}
+
+.instrument[data-type="REAL_DRUMS" i] {
+    --spriteXPosition: 2;
+    --spriteYPosition: 1;
+}
+
+.instrument[data-type="KEYS" i] {
+    --spriteXPosition: 3;
+    --spriteYPosition: 0;
+}
+
+.instrument[data-type="REAL_KEYS" i] {
+    --spriteXPosition: 3;
+    --spriteYPosition: 1;
+}
+
+.instrument[data-type="VOCALS" i] {
+    --spriteXPosition: 0;
+    --spriteYPosition: 2;
+}
+
+.instrument[data-type="HARMONY" i] {
+    --spriteXPosition: 3;
+    --spriteYPosition: 3;
+}
+
+.instrument[data-difficulty]::after {
+    content: "";
+    width: 100%;
+    position: absolute;
+    inset: 0px;
+    transform: scale(1.25);
+    
+    background: var(--difficultyRingsImage);
+    --columns: 3;
+    aspect-ratio: 1;
+    background-size: calc(100% * var(--columns));
+
+    /* Selected the hardest difficult as we can't get selectors above 6 */
+    --spriteXPosition: 1; /* 0 - 2 */
+    --spriteYPosition: 2; /* 0 - 2 */
+
+    --backgroundPositionX: calc(
+        calc(100% * var(--spriteXPosition)) * -1
+    );
+
+    --backgroundPositionY: calc(
+        calc(100% * var(--spriteYPosition)) * -1
+    );
+
+    background-position: var(--backgroundPositionX) var(--backgroundPositionY);
+}
+
+.instrument[data-difficulty="-1"]::after {
+    --spriteXPosition: 0; /* 0 - 2 */
+    --spriteYPosition: 0; /* 0 - 2 */
+}
+
+.instrument[data-difficulty="0"]::after {
+    --spriteXPosition: 1; /* 0 - 2 */
+    --spriteYPosition: 0; /* 0 - 2 */
+}
+
+.instrument[data-difficulty="1"]::after {
+    --spriteXPosition: 2; /* 0 - 2 */
+    --spriteYPosition: 0; /* 0 - 2 */
+}
+
+.instrument[data-difficulty="2"]::after {
+    --spriteXPosition: 0; /* 0 - 2 */
+    --spriteYPosition: 1; /* 0 - 2 */
+}
+
+.instrument[data-difficulty="3"]::after {
+    --spriteXPosition: 1; /* 0 - 2 */
+    --spriteYPosition: 1; /* 0 - 2 */
+}
+
+.instrument[data-difficulty="4"]::after {
+    --spriteXPosition: 2; /* 0 - 2 */
+    --spriteYPosition: 1; /* 0 - 2 */
+}
+
+.instrument[data-difficulty="5"]::after {
+    --spriteXPosition: 0; /* 0 - 2 */
+    --spriteYPosition: 2; /* 0 - 2 */
+}

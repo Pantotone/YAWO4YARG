@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YAWO4YARG</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+    <div id="nowplaying" data-playing="false">
+
+        <div class="album">
+            <img src="" id="albumArt" />
+
+            <!-- Available instruments to use: -->
+            <!-- GUITAR, GUITAR_COOP, REAL_GUITAR, RHYTHM, BASS, REAL_BASS, DRUMS, GH_DRUMS, REALDRUMS, KEYS, REAL_KEYS, VOCALS, HARMONY -->
+            <div class="instrument" data-type="GUITAR" data-difficulty="4"></div>
+        </div>
+
+        <div class="info">
+            <div id="songName">Song name</div>
+            <div id="artistName">Artist Name</div>
+        </div>
+
+    </div>
+
+    
+
+    <script src="assets/main.js"></script>
+    <script defer>
+        const informationManager = new InformationManager({jsonPath: "../currentSong.json"});
+
+        const mainContainer = document.getElementById("nowplaying");
+
+        const songRender = new SongRender(
+            mainContainer ? {
+                mainContainer: mainContainer,
+                songNameContainer: mainContainer.querySelector("#songName"),
+                artistNameContainer: mainContainer.querySelector("#artistName"),
+                albumArtElement: mainContainer.querySelector("#albumArt"),
+                difficultyRingElement: mainContainer.querySelector(".instrument")
+            } : undefined
+        );
+        
+        informationManager.onChange(currentSong => songRender.handleEvent(currentSong));
+
+        const UPDATE_MILLISECONDS = 1000;
+        const clock = new MainClock([
+            () => { informationManager.update() }
+        ], UPDATE_MILLISECONDS);
+    </script>
+</body>
+</html>
