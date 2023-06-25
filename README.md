@@ -36,8 +36,7 @@
 
     5.2. Place what instrument you'll be playing
 
-    > **Warning:** 
-    > 
+    > **Warning** 
     > This is case-sensitive.
 
     > Available instruments:
