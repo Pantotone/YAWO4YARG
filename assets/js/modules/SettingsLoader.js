@@ -9,8 +9,13 @@ export class SettingsLoader {
     /** @type {Map<string, any>} */
     settings = new Map();
 
-    constructor() {
-        this.load();
+    /**
+     * @param {string} [settingsPath] - Root folder of settings files
+     */
+    constructor(settingsPath) {
+        if(settingsPath) {
+            this.settingsRootPath = settingsPath;
+        }
     }
     
     /**

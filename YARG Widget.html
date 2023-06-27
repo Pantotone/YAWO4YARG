@@ -28,15 +28,15 @@
     
 
     <script type="module" defer>
-        // @ts-check
-
         import { SettingsLoader, InformationManager, SongRender, MainClock } from './assets/js/index.js';
 
         const settings = new SettingsLoader();
+        await settings.load();
 
-        const informationManager = new InformationManager();
-        settings.get("currentSongFilePath").then(jsonPath => informationManager.applySettings({jsonPath}));
-        settings.get("selectedInstruments").then(selectedInstruments => informationManager.applySettings({selectedInstruments}));
+        const informationManager = new InformationManager({
+            jsonPath: await settings.get("currentSongFilePath"),
+            selectedInstruments: await settings.get("selectedInstruments"),
+        });
 
         const mainContainer = document.getElementById("nowplaying");
 
