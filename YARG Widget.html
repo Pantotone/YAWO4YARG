@@ -47,17 +47,15 @@
             albumElement.dataset.small = displaySmallIcon.trim().toLowerCase()
         });
 
-        const songRender = new SongRender(
-            mainContainer ? {
+        const songRender = new SongRender({
                 mainContainer: mainContainer,
-                songNameContainer: mainContainer.querySelector("#songName"),
-                artistNameContainer: mainContainer.querySelector("#artistName"),
-                albumArtElement: mainContainer.querySelector("#albumArt"),
-                sourceIconElement: mainContainer.querySelector("#sourceIcon"),
-                instrumentIconElement: mainContainer.querySelector(".instrument"),
-                difficultyRingElement: mainContainer.querySelector(".instrument")
-            } : undefined
-        );
+                songNameContainer: mainContainer?.querySelector("#songName"),
+                artistNameContainer: mainContainer?.querySelector("#artistName"),
+                albumArtElement: mainContainer?.querySelector("#albumArt"),
+                sourceIconElement: mainContainer?.querySelector("#sourceIcon"),
+                instrumentIconElement: mainContainer?.querySelector(".instrument"),
+                difficultyRingElement: mainContainer?.querySelector(".instrument")
+        });
         
         informationManager.onChange(currentSong => songRender.handleEvent(currentSong));
 
