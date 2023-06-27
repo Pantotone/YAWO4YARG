@@ -27,8 +27,11 @@
 
     
 
-    <script src="assets/main.js"></script>
-    <script defer>
+    <script type="module" defer>
+        // @ts-check
+
+        import { SettingsLoader, InformationManager, SongRender, MainClock } from './assets/js/index.js';
+
         const settings = new SettingsLoader();
 
         const informationManager = new InformationManager();
