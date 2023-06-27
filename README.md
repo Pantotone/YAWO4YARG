@@ -1,6 +1,6 @@
 ## 📺 **YAWO4YARG** - *Yet Another Widget Overlay for Yet Another Rhythm Game*
 
-#### A Widget overlay compatible with [OBS](https://obsproject.com) (28.0.1 and newer) that shows the current song with album artwork and difficulty/source icon being played on [Yet Another Rhythm Game](https://github.com/YARC-Official/YARG).
+A Widget overlay compatible with [OBS](https://obsproject.com) (28.0.1 and newer) that shows the current song with album artwork and difficulty/source icon being played on [Yet Another Rhythm Game](https://github.com/YARC-Official/YARG).
 
 
 ---
@@ -28,38 +28,43 @@
     - On the browser settings, mark "Local file", and locate the extracted widget folder and select `YARG Widget.html`
     - Set the width as `1920` and height as `260`. If it's too big, you can resize the widget on your canvas after you add it.
 
-5. **(optional)** Change small icon beside the rim on widget.
+---
 
-    By default, thw widget will show the instrument with the 
+# ⚙️ List of settings
 
-    5.1. On the extracted widget folder, go to `settings` folder, and open `DisplaySmallIcon.txt` with a text or code editor.
+- [`DisplaySmallIcon.txt` - Change small icon beside the rim.](#displaysmallicontxt---change-small-icon-beside-the-rim)
+- [`Instrument.txt` - Change current instrument.](#instrumenttxt---change-current-instrument)
 
-    5.2. Place what you want to display on the small icon and save it.
+### `DisplaySmallIcon.txt` - Change small icon beside the rim.
 
-    > Available icons: (not case-sensitive)
-    >
-    > `instrument` (default) - will show the instrument being played along with the difficulty ring.
-    >
-    > `source` - will show the icon for the chart source. *(grabbed from [YARC-Official/OpenSource](https://github.com/YARC-Official/OpenSource))*
-    >
-    > `none` - will not show anything on the small icon.
+1. On the extracted widget folder, go to `settings` folder, and open `DisplaySmallIcon.txt` with a text or code editor.
 
-6. **(optional)** Change current instrument on widget.
+2. Place what you want to display on the small icon and save it.
 
-    As for now, the widget isn't able to detect what instrument is being played. In case you're playing an instrument that's not Guitar, you might need to change inside the settings.
+> **Available icons: (not case-sensitive)**
+>
+> `instrument` (default) - will show the instrument being played along with the difficulty ring.
+>
+> `source` - will show the icon for the chart source. *(grabbed from [YARC-Official/OpenSource](https://github.com/YARC-Official/OpenSource))*
+>
+> `none` - will not show anything on the small icon.
 
-    6.1. On the extracted widget folder, go to `settings` folder, and open `Instrument.txt` with a text or code editor.
+### `Instrument.txt` - Change current instrument.
 
-    6.2. Place what instrument you'll be playing
+As for now, the widget isn't able to detect what instrument is being played. In case you're playing an instrument that's not Guitar, you might need to change inside the settings.
 
-    > **Warning** 
-    > This is case-sensitive.
+1. On the extracted widget folder, go to `settings` folder, and open `Instrument.txt` with a text or code editor.
 
-    > Available instruments:
-    >
-    > `GUITAR` - `GUITAR_COOP` - `REAL_GUITAR` - `RHYTHM` - `BASS` - `REAL_BASS` - `DRUMS` - `GH_DRUMS` - `REALDRUMS` - `KEYS` - `REAL_KEYS` - `VOCALS` - `HARMONY`
+2. Place what instrument you'll be playing
+
+> **Warning** 
+> This is case-sensitive.
+
+> **Available instruments:**
+>
+> `GUITAR` - `GUITAR_COOP` - `REAL_GUITAR` - `RHYTHM` - `BASS` - `REAL_BASS` - `DRUMS` - `GH_DRUMS` - `REALDRUMS` - `KEYS` - `REAL_KEYS` - `VOCALS` - `HARMONY`
 
 
-    - You can put multiple instruments separated by a comma (example: `GUITAR,GUITAR_COOP,RHYTHM,BASS,KEYS`) so you don't have to change mid-screen in case a chart doesn't have specified instrument.
-    - It'll show the first available instrument on the list, even if you're playing another instrument, so prioritize the instrument you'll be mostly playing.
-    - In case you want to change the instrument mid-stream, just change the `Instrument.txt` and click `Refresh` on the Browser Source in OBS.
+- You can put multiple instruments separated by a comma (example: `GUITAR,GUITAR_COOP,RHYTHM,BASS,KEYS`) so you don't have to change mid-screen in case a chart doesn't have specified instrument.
+- The order you put the instruments will matter, as the widget will fetch the first instrument with chart available.
+- In case you want to change the instrument mid-stream, just change the `Instrument.txt` and click `Refresh` on the Browser Source in OBS. (you can use Streamer.bot + StreamDeck to [write the file](https://wiki.streamer.bot/en/Sub-Actions/File/Write-To-File) + [refresh the browser source](https://wiki.streamer.bot/en/Broadcasters/OBS/Requests/Additional-Request-Info/RefreshBrowserSource))
