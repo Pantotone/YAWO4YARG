@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700;900&display=swap');
 
 :root {
-    --circleImage: url("Rim.png");
-    --fontSprites: url("FontSprites.png");
-    --difficultyRingsImage: url("DifficultyRings.png");
+    --circleImage: url("../images/Rim.png");
+    --fontSprites: url("../images/FontSprites.png");
+    --difficultyRingsImage: url("../images/DifficultyRings.png");
     --mainColor: #fff;
 }
 
