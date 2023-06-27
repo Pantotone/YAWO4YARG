@@ -1,16 +1,14 @@
-// @ts-check
-
 /**
  *  Util Functions
  */
 
 /**
  * @typedef {Object} readFileOptions
- * @property {boolean} [base64]
+ * @property {boolean} [base64] - If true, the return will be in Base64
  */
 /**
  * Fetch local files
- * @param {string} path 
+ * @param {string} path - File path to read
  * @param {readFileOptions} [options]
  * @returns {Promise<string>}
  */
@@ -47,9 +45,9 @@ export async function readFile(path, options) {
 
 /**
  * 
- * @param {HTMLElement} element 
- * @param {string} key 
- * @param {string} [value] 
+ * @param {HTMLElement} element - HTMLElement to set attribute
+ * @param {string} key - Atrribute name (example: type from "data-type")
+ * @param {string} [value] - Attribute value
  */
 export function setAttributeToElement(element, key, value) {
     if(!element || !key) throw new Error("setAttributeToElement: Missing element/key");
@@ -63,7 +61,7 @@ export function setAttributeToElement(element, key, value) {
 
 /**
  * Generates a URL using http://absolute protocol for local files.
- * @param {string} path 
+ * @param {string} path - Absolute local path
  */
 export function absolutePath(path) {
     return `http://absolute/${path}`;

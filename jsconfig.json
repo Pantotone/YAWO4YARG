@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "ES2022", // OBS 28.0.1 - CEF 108
+        "module": "ES2022",
+        "strict": true,
+        "checkJs": true,
+    },
+    "include": [
+        "**/*"
+    ]
+}

@@ -1,5 +1,3 @@
-// @ts-check
-
 /**
  *  Type Definitions
  */
@@ -30,41 +28,41 @@
  * @property {number} VideoStartOffset
  * @property {string} CacheRoot
  * @property {number} DrumType
- * @property {string} Name
+ * @property {string} Name - Song Name
  * @property {string} NameNoParenthesis
- * @property {string} Artist
- * @property {string} Charter
+ * @property {string} Artist - Artist name for this song
+ * @property {string} Charter - Charter's name
  * @property {boolean} IsMaster
- * @property {string} Album
+ * @property {string} Album - Album name for this song
  * @property {number} AlbumTrack
  * @property {number} PlaylistTrack
- * @property {string} Genre
- * @property {string} Year
- * @property {number} SongLength
+ * @property {string} Genre - Song Genre
+ * @property {string} Year - Year the song was released
+ * @property {number} SongLength - Song Length in milliseconds
  * @property {string} SongLengthTimeSpan
- * @property {number} PreviewStart
+ * @property {number} PreviewStart - Where the song starts to play on preview (in milliseconds)
  * @property {string} PreviewStartTimeSpan
- * @property {number} PreviewEnd
+ * @property {number} PreviewEnd - Where the preview should end (in milliseconds)
  * @property {string} PreviewEndTimeSpan
  * @property {number} Delay
- * @property {string} LoadingPhrase
+ * @property {string} LoadingPhrase - Phrase shown when chart is loading
  * @property {number} HopoThreshold
  * @property {boolean} EighthNoteHopo
  * @property {number} MultiplierNote
- * @property {string} Source
+ * @property {string} Source - ID for Chart Source
  * @property {PartDifficulties} PartDifficulties
  * @property {number} BandDifficulty
  * @property {number} AvailableParts
  * @property {number} VocalParts
  * @property {string} Checksum
- * @property {string} NotesFile
- * @property {string} Location
+ * @property {string} NotesFile - Files where midi notes are store
+ * @property {string} Location - Absolute Folder Path for chart
  */
 
 /**
  * @typedef {Object} SelectedInstrument
- * @property {string} instrument
- * @property {number} difficulty
+ * @property {keyof PartDifficulties} instrument - First instrument from the list with available chart
+ * @property {number} difficulty - Chart difficulty for the instrument selected
  */
 
 /**
@@ -73,15 +71,15 @@
 
 /**
  * @typedef {Object} SourceIndex
- * @property {string} type
+ * @property {"base"|"extra"} type
  * @property {Source[]} sources
  */
 
 /**
  * @typedef {Object} Source
  * @property {string[]} ids
- * @property {{[key: string]: string}} names
- * @property {string} icon
+ * @property {{[key: string]: string}} names - Names by language
+ * @property {string} icon - Icon file
  * @property {string} type
  */
 

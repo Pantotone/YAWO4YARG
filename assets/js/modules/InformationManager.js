@@ -1,12 +1,10 @@
-// @ts-check
-
 import { absolutePath, readFile } from "./Utils.js";
 import * as Types from '../types.js';
 
 /**
  * @typedef {Object} InformationManagerOptions
- * @property {string} [jsonPath]
- * @property {string[]} [selectedInstruments]
+ * @property {string} [jsonPath] - "Current Song JSON File Path" from settings
+ * @property {string[]} [selectedInstruments] - Instrument that will show on the widget
  */
 
 /**
@@ -17,21 +15,21 @@ export class InformationManager {
     
     // Default settings
 
-    /** @type {string} */
+    /** @type {string} - "Current Song JSON File Path" from settings */
     jsonPath = "currentSong.json";
     
-    /** @type {string[]} */
+    /** @type {(keyof Types.PartDifficulties)[]} - Instrument that will show on the widget */
     selectedInstruments = [];
 
     
     // Internal
-    /** @type {string} */
+    /** @type {string} - Cache from JSON that will be used to compare if has changes */
     _content = "";
-    /** @type {Set<Function>} */
+    /** @type {Set<Function>} - Callbacks to be called when a song update happens */
     _updateCallbacks = new Set();
-    /** @type {Types.SourceIndex|undefined} */
+    /** @type {Types.SourceIndex|undefined} - Cache to YARC-Official/OpenSource Base Icons */
     _baseSourceCache = undefined;
-    /** @type {Types.SourceIndex|undefined} */
+    /** @type {Types.SourceIndex|undefined} - Cache to YARC-Official/OpenSource Base Icons */
     _extraSourceCache = undefined;
 
     /**
@@ -74,10 +72,10 @@ export class InformationManager {
      * @returns {boolean}
      */
     checkChanges(newUpdate) {
-        const isUpdated = newUpdate !== this.content;
+        const isUpdated = newUpdate !== this._content;
         
         if(isUpdated) {
-            this.content = newUpdate
+            this._content = newUpdate
         }
 
         return isUpdated;
@@ -85,13 +83,13 @@ export class InformationManager {
 
     /**
      * Fetches the album art from the location provided by the JSON and returns in Base64 string.
-     * @param {string} songLocation 
+     * @param {string} songLocation - Location for chart folder, provided by Song JSON
      */
     async getAlbumArt(songLocation) {
         const acceptedFileNames = ["album.png", "album.jpg", "album.jpeg"];
         const fetchers = acceptedFileNames.map(fileName => readFile(absolutePath(`${songLocation}/${fileName}`), {base64: true}));
         
-        /** @type {string} */
+        /** @type {string} - Base64 image */
         // @ts-ignore Typescript apparently doesn't have types for Promise.any, here's the docs anyway: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any
         const base64File = await Promise.any(fetchers);
 
@@ -100,7 +98,7 @@ export class InformationManager {
 
     /**
      * Get first available instrument on selectedInstruments list
-     * @param {Types.PartDifficulties} songParts 
+     * @param {Types.PartDifficulties} songParts - Difficulty levels for every instrument on the chart
      */
     getSelectedInstrument(songParts) {
         const selected = this.selectedInstruments.find(instrument => songParts[instrument] > -1);
@@ -109,13 +107,13 @@ export class InformationManager {
 
     /**
      * Gets Source Icon URL from @YARC-Official/OpenSource repo indexes.
-     * @param {string} sourceName 
+     * @param {string} sourceId - The source ID provided by the current song
      */
-    getSourceIconURL(sourceName) {
+    getSourceIconURL(sourceId) {
         if(!this._baseSourceCache || !this._extraSourceCache) return;
 
-        const baseSource = this._baseSourceCache.sources.find(source => source.ids.includes(sourceName));
-        const extraSource = this._extraSourceCache.sources.find(source => source.ids.includes(sourceName));
+        const baseSource = this._baseSourceCache.sources.find(source => source.ids.includes(sourceId));
+        const extraSource = this._extraSourceCache.sources.find(source => source.ids.includes(sourceId));
 
         const sourceIndex = baseSource ? "base" : "extra";
         const source = baseSource || extraSource;
@@ -128,7 +126,7 @@ export class InformationManager {
 
     /**
      * Sends a notification to another subscribed classes about a song change.
-     * @param {string} updated 
+     * @param {string} updated - Updated current song JSON as string.
      */
     async _triggerUpdate(updated) {
         try {
@@ -157,7 +155,7 @@ export class InformationManager {
 
     /**
      * Adds a callback function to be notified when a song changes
-     * @param {(currentSong: Types.ExtendedCurrentSong) => any} func 
+     * @param {(currentSong: Types.ExtendedCurrentSong) => any} func - Callback Function to be called when there's a song change
      */
     onChange(func) {
         this._updateCallbacks.add(func);

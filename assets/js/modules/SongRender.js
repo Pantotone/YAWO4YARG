@@ -1,16 +1,15 @@
-// @ts-check
-
 import * as Types from "../types.js";
 import { setAttributeToElement } from "./Utils.js";
 
 /**
  * @typedef {Object} SongRenderOptions
- * @property {HTMLElement|null} mainContainer
- * @property {HTMLElement|null} songNameContainer
- * @property {HTMLElement|null} artistNameContainer
- * @property {HTMLElement|null} albumArtElement
- * @property {HTMLElement|null} instrumentIconElement
- * @property {HTMLElement|null} difficultyRingElement
+ * @property {HTMLElement|null} [mainContainer] - The main widget element
+ * @property {HTMLElement|null} [songNameContainer] - HTMLElement where current song name will be inserted.
+ * @property {HTMLElement|null} [artistNameContainer] - HTMLElement where current artist name will be inserted.
+ * @property {HTMLElement|null} [albumArtElement] - <image> tag which the album art will be set.
+ * @property {HTMLElement|null} [sourceIconElement] - <image> tag which the source icon will be set.
+ * @property {HTMLElement|null} [instrumentIconElement] - Element where instrument icon is set.
+ * @property {HTMLElement|null} [difficultyRingElement] - Element where difficulty ring is set.
  */
 
 /**
@@ -62,7 +61,7 @@ export class SongRender {
         this.songNameContainer?.replaceChildren(textNode);
     }
 
-    /** @param {string} [imageURL] */
+    /** @param {string} [imageURL] - URL or Base64 from the album image */
     setAlbumArt(imageURL) {
         if(this.albumArtElement instanceof HTMLImageElement) {
             this.albumArtElement.src = imageURL || "";
@@ -70,7 +69,7 @@ export class SongRender {
     }
 
     /**
-     * @param {string} [instrument] 
+     * @param {string} [instrument] - Instrument to be selected on screen
      */
     setInstrumentIcon(instrument) {
         if(!this.instrumentIconElement) return;
@@ -78,14 +77,14 @@ export class SongRender {
     }
 
     /**
-     * @param {number} [difficulty]
+     * @param {number} [difficulty] - Difficulty to be set on the ring element
      */
     setDifficultyRing(difficulty) {
         if(!this.difficultyRingElement) return;
         setAttributeToElement(this.difficultyRingElement, "difficulty", difficulty?.toString());
     }
 
-    /** @param {string} [iconURL] */
+    /** @param {string} [iconURL] - URL from the source icon image */
     setSourceIcon(iconURL) {
         if(this.sourceIconElement instanceof HTMLImageElement) {
             this.sourceIconElement.src = iconURL || "";
@@ -94,7 +93,7 @@ export class SongRender {
 
     /**
      * Receives the updated current song and performs the changes inside the DOM
-     * @param {Types.ExtendedCurrentSong} [currentSong]
+     * @param {Types.ExtendedCurrentSong} [currentSong] - Object containing informations from the new current song
      */
     handleEvent(currentSong) {
         if(!this.mainContainer) return;

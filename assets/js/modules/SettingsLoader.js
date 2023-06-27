@@ -1,7 +1,8 @@
-// @ts-check
-
 import { readFile } from "./Utils.js";
 
+/**
+ * @classdesc Manager that loads and process setting files for the widget.
+ */
 export class SettingsLoader {
 
     /** @type {string} */
