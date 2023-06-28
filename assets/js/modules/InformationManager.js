@@ -89,11 +89,12 @@ export class InformationManager {
         const acceptedFileNames = ["album.png", "album.jpg", "album.jpeg"];
         const fetchers = acceptedFileNames.map(fileName => readFile(absolutePath(`${songLocation}/${fileName}`), {base64: true}));
         
-        /** @type {string} - Base64 image */
-        // @ts-ignore Typescript apparently doesn't have types for Promise.any, here's the docs anyway: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any
-        const base64File = await Promise.any(fetchers);
-
-        return base64File;
+        try {
+            const base64File = await Promise.any(fetchers);
+            return base64File;
+        } catch(e) {
+            console.error("No album arts were found.", e);
+        }
     }
 
     /**

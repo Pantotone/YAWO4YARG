@@ -4,6 +4,7 @@
     --circleImage: url("../images/Rim.png");
     --fontSprites: url("../images/FontSprites.png");
     --difficultyRingsImage: url("../images/DifficultyRings.png");
+    --unknownAlbumCover: url("../images/UnknownAlbumCover.png");
     --mainColor: #fff;
 }
 
@@ -34,6 +35,14 @@ body {
     --transform: scale(0.85);
     transform: var(--transform);
     transition: transform .5s calc(0.2s * var(--isExiting)) ease;
+}
+
+img[src=''] {
+    background: var(--unknownAlbumCover);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
 }
 
 .album::after {

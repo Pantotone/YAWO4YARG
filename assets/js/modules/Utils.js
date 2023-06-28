@@ -26,7 +26,7 @@ export async function readFile(path, options) {
  * @returns {Promise<string>}
  */
 async function readFileOBS(path, options) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         const request = new XMLHttpRequest();
         request.open("GET", path);
         request.responseType = options?.base64 ? "blob" : "text";
@@ -50,6 +50,10 @@ async function readFileOBS(path, options) {
             }
 
             file.readAsDataURL(request.response);
+        }
+
+        request.onerror = () => {
+            reject();
         }
 
         request.send();
