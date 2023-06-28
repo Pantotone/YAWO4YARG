@@ -13,6 +13,19 @@
  * @returns {Promise<string>}
  */
 export async function readFile(path, options) {
+    if(typeof window !== "undefined" && typeof window.document !== "undefined") {
+        return readFileOBS(path, options);
+    } 
+    
+    return readFileNode(path, options);
+}
+
+/**
+ * @param {string} path - File path to read
+ * @param {readFileOptions} [options]
+ * @returns {Promise<string>}
+ */
+async function readFileOBS(path, options) {
     return new Promise((resolve) => {
         const request = new XMLHttpRequest();
         request.open("GET", path);
@@ -44,6 +57,16 @@ export async function readFile(path, options) {
 }
 
 /**
+ * @param {string} path - File path to read
+ * @param {readFileOptions} [options]
+ * @returns {Promise<string>}
+ */
+async function readFileNode(path, options) {
+    const fs = await import("fs/promises");
+    return await fs.readFile(path, { encoding: options?.base64 ? "base64url" : "utf8"});
+}
+
+/**
  * 
  * @param {HTMLElement} element - HTMLElement to set attribute
  * @param {string} key - Atrribute name (example: type from "data-type")
@@ -64,5 +87,9 @@ export function setAttributeToElement(element, key, value) {
  * @param {string} path - Absolute local path
  */
 export function absolutePath(path) {
-    return `http://absolute/${path}`;
+    if(typeof window !== "undefined" && typeof window.document !== "undefined") {
+        return `http://absolute/${path}`;
+    } 
+
+    return path;
 }

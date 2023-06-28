@@ -1,0 +1,24 @@
+{
+  "name": "yawo4yarg",
+  "version": "1.0.0",
+  "description": "Yet Another Widget Overlay for Yet Another Rhythm Game!",
+  "type": "module",
+  "main": "assets/js/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pantotone/YAWO4YARG.git"
+  },
+  "keywords": [
+    "obs",
+    "yarg",
+    "widget",
+    "stream",
+    "overlay"
+  ],
+  "author": "Pantotone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pantotone/YAWO4YARG/issues"
+  },
+  "homepage": "https://github.com/Pantotone/YAWO4YARG#readme"
+}

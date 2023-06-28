@@ -14,7 +14,7 @@ export class MainClock {
      * @param {Array<Function>} functions - Array of Functions that will be in sync with the clock
      * @param {number} [milliseconds] - (optional) Time in milliseconds for the clock to run
      */
-    constructor(functions, milliseconds = 1000) {
+    constructor(functions = [], milliseconds = 1000) {
         functions.forEach(item => {
             if(typeof item === "function") {
                 this.functions.add(item);
