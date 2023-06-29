@@ -35,6 +35,7 @@ A Widget overlay compatible with [OBS](https://obsproject.com) (28.0.1 and newer
 - [`DisplaySmallIcon.txt` - Change small icon beside the rim.](#displaysmallicontxt---change-small-icon-beside-the-rim)
 - [`Instrument.txt` - Change current instrument.](#instrumenttxt---change-current-instrument)
 - [`TextAlignment.txt` - Change text position.](#textalignmenttxt---change-text-position)
+- [`LastFmAPIKey.txt` - Use Last.fm as a fallback when album art isn't available on chart.](#lastfmapikeytxt---use-lastfm-as-a-fallback-when-album-art-isnt-available-on-chart)
 
 ### `DisplaySmallIcon.txt` - Change small icon beside the rim.
 
@@ -83,3 +84,15 @@ As for now, the widget isn't able to detect what instrument is being played. In 
 > `right` - Shows album art and text right-to-left
 >
 > `center` - Shows album art and text left-to-right, but widget will be centered on canvas
+
+### `LastFmAPIKey.txt` - Use Last.fm as a fallback when album art isn't available on chart.
+
+1. Go to [https://www.last.fm/api/account/create](https://www.last.fm/api/account/create) (you'll need to create an Last.fm account if you don't have)
+
+2. You'll need to provide an `Application Name`, feel free to chose whatever name. (the other fields aren't required)
+
+3. Copy your API key, you'll need it later.
+
+4. On the extracted widget folder, go to `settings` folder, and open `LastFmAPIKey.txt` with a text or code editor.
+
+5. Paste your API key, and save.

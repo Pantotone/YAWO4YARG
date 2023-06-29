@@ -103,7 +103,7 @@ export class SongRender {
         if(!currentSong || !isPlaying) return;
         this.setSongName(currentSong.Name);
         this.setArtistName(currentSong.Artist);
-        this.setAlbumArt(currentSong.AlbumArt_Base64);
+        this.setAlbumArt(currentSong.AlbumArtURL);
         this.setSourceIcon(currentSong.SourceIconURL);
 
         const instrumentType = currentSong.SelectedInstruments?.find(player => player.active);

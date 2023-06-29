@@ -28,7 +28,7 @@
     
 
     <script type="module" defer>
-        import { SettingsLoader, InformationManager, SongRender, MainClock } from './assets/js/index.js';
+        import { SettingsLoader, InformationManager, SongRender, MainClock, LastFmAlbumArtDownloader } from './assets/js/index.js';
 
         const settings = new SettingsLoader();
         await settings.load();
@@ -36,6 +36,14 @@
         const informationManager = new InformationManager({
             jsonPath: await settings.get("currentSongFilePath"),
             selectedInstruments: await settings.get("selectedInstruments"),
+        });
+
+        settings.get("lastFmAPIKey").then(lastFmApiKey => {
+            if(!lastFmApiKey) return;
+
+            informationManager.applySettings({
+                albumArtDownloader: new LastFmAlbumArtDownloader(lastFmApiKey)
+            });
         });
 
         const mainContainer = document.getElementById("nowplaying");

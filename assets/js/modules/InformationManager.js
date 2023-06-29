@@ -1,10 +1,12 @@
 import { absolutePath, readFile } from "./Utils.js";
+import { LastFmAlbumArtDownloader } from "./LastFmAlbumArtDownloader.js";
 import * as Types from '../types.js';
 
 /**
  * @typedef {Object} InformationManagerOptions
  * @property {string} [jsonPath] - "Current Song JSON File Path" from settings
  * @property {string[]} [selectedInstruments] - Instrument that will show on the widget
+ * @property {LastFmAlbumArtDownloader} [albumArtDownloader] - Album Art Downloader for fallback when chart doesn't have an album art.
  */
 
 /**
@@ -21,7 +23,9 @@ export class InformationManager {
     /** @type {(keyof Types.PartDifficulties)[]} - Instrument that will show on the widget */
     selectedInstruments = [];
 
-    
+    /** @type {LastFmAlbumArtDownloader|undefined} */
+    albumArtDownloader = undefined;
+
     // Internal
     /** @type {string} - Cache from JSON that will be used to compare if has changes */
     _content = "";
@@ -134,7 +138,7 @@ export class InformationManager {
             /** @type {Types.currentSong} */
             const jsonObj = JSON.parse(updated);
 
-            const AlbumArt_Base64 = await this.getAlbumArt(jsonObj.Location);
+            const AlbumArtURL = await this.getAlbumArt(jsonObj.Location) || await this.albumArtDownloader?.getImageUrl(jsonObj.Artist, jsonObj.Album);
 
             const instrument = this.getSelectedInstrument(jsonObj.PartDifficulties);
 
@@ -148,7 +152,7 @@ export class InformationManager {
             const SourceIconURL = this.getSourceIconURL(jsonObj.Source);
 
             /** @type {Types.ExtendedCurrentSong} */
-            const updatedJson = { AlbumArt_Base64, SelectedInstruments, SourceIconURL, ...jsonObj };
+            const updatedJson = { AlbumArtURL, SelectedInstruments, SourceIconURL, ...jsonObj };
 
             this._updateCallbacks.forEach(func => func(updatedJson));
         } catch (e) {

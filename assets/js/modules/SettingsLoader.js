@@ -41,6 +41,7 @@ export class SettingsLoader {
             this.loadAsString("CurrentSongFilePath.txt", "currentSongFilePath"),
             this.loadAsString("DisplaySmallIcon.txt", "displaySmallIcon"),
             this.loadAsString("TextAlignment.txt", "textAlignment"),
+            this.loadAsString("LastFmAPIKey.txt", "lastFmAPIKey"),
             this.loadAsArray("Instrument.txt", "selectedInstruments")
         ];
     
@@ -55,7 +56,10 @@ export class SettingsLoader {
     async loadAsString(path, key) {
         try {
             const raw = await readFile(`${this.settingsRootPath}/${path}`);
-            this.settings.set(key, raw.trim());
+            const processed = raw.trim();
+            if(processed.length > 0) {
+                this.settings.set(key, raw.trim());
+            };
         } catch (e) {
             console.error(e);
         }
