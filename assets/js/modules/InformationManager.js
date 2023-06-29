@@ -138,7 +138,9 @@ export class InformationManager {
 
             const instrument = this.getSelectedInstrument(jsonObj.PartDifficulties);
 
+            /** @type {Types.SelectedInstrument[] | undefined} */
             const SelectedInstruments = instrument ? [{
+                active: true,
                 instrument,
                 difficulty: jsonObj.PartDifficulties[instrument]
             }] : undefined

@@ -61,6 +61,7 @@
 
 /**
  * @typedef {Object} SelectedInstrument
+ * @property {boolean} active - If the player is active
  * @property {keyof PartDifficulties} instrument - First instrument from the list with available chart
  * @property {number} difficulty - Chart difficulty for the instrument selected
  */
