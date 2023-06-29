@@ -66,7 +66,7 @@
  */
 
 /**
- * @typedef {currentSong & {AlbumArt_Base64?: string, SourceIconURL?: string, SelectedInstrument?: SelectedInstrument}} ExtendedCurrentSong
+ * @typedef {currentSong & {AlbumArt_Base64?: string, SourceIconURL?: string, SelectedInstruments?: SelectedInstrument[]}} ExtendedCurrentSong
  */
 
 /**

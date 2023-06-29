@@ -106,7 +106,7 @@ export class SongRender {
         this.setAlbumArt(currentSong.AlbumArt_Base64);
         this.setSourceIcon(currentSong.SourceIconURL);
 
-        const instrumentType = currentSong.SelectedInstrument;
+        const instrumentType = currentSong.SelectedInstruments?.at(0);
         this.setInstrumentIcon(instrumentType?.instrument);
         this.setDifficultyRing(instrumentType?.difficulty);
     }

@@ -138,15 +138,15 @@ export class InformationManager {
 
             const instrument = this.getSelectedInstrument(jsonObj.PartDifficulties);
 
-            const SelectedInstrument = instrument ? {
+            const SelectedInstruments = instrument ? [{
                 instrument,
                 difficulty: jsonObj.PartDifficulties[instrument]
-            } : undefined
+            }] : undefined
 
             const SourceIconURL = this.getSourceIconURL(jsonObj.Source);
 
             /** @type {Types.ExtendedCurrentSong} */
-            const updatedJson = {...jsonObj, AlbumArt_Base64, SelectedInstrument, SourceIconURL};
+            const updatedJson = { AlbumArt_Base64, SelectedInstruments, SourceIconURL, ...jsonObj };
 
             this._updateCallbacks.forEach(func => func(updatedJson));
         } catch (e) {
