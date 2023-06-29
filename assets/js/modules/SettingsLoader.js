@@ -40,6 +40,7 @@ export class SettingsLoader {
         const loaders = [
             this.loadAsString("CurrentSongFilePath.txt", "currentSongFilePath"),
             this.loadAsString("DisplaySmallIcon.txt", "displaySmallIcon"),
+            this.loadAsString("TextAlignment.txt", "textAlignment"),
             this.loadAsArray("Instrument.txt", "selectedInstruments")
         ];
     

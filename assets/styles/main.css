@@ -21,6 +21,25 @@ body {
     --isExiting: 0;
 }
 
+#nowplaying[data-alignment="right" i] {
+    flex-direction: row-reverse;
+    text-align: end;
+}
+
+#nowplaying[data-alignment="right" i] .instrument {
+    right: auto;
+    left: 0px;
+}
+
+#nowplaying[data-alignment="right" i] .source {
+    right: auto;
+    left: -20px;
+}
+
+#nowplaying[data-alignment="center" i] {
+    justify-content: center;
+}
+
 .album {
     width: 256px;
     aspect-ratio: 1;

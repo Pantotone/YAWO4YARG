@@ -34,6 +34,7 @@ A Widget overlay compatible with [OBS](https://obsproject.com) (28.0.1 and newer
 
 - [`DisplaySmallIcon.txt` - Change small icon beside the rim.](#displaysmallicontxt---change-small-icon-beside-the-rim)
 - [`Instrument.txt` - Change current instrument.](#instrumenttxt---change-current-instrument)
+- [`TextAlignment.txt` - Change text position.](#textalignmenttxt---change-text-position)
 
 ### `DisplaySmallIcon.txt` - Change small icon beside the rim.
 
@@ -68,3 +69,17 @@ As for now, the widget isn't able to detect what instrument is being played. In 
 - You can put multiple instruments separated by a comma (example: `GUITAR,GUITAR_COOP,RHYTHM,BASS,KEYS`) so you don't have to change mid-screen in case a chart doesn't have specified instrument.
 - The order you put the instruments will matter, as the widget will fetch the first instrument with chart available.
 - In case you want to change the instrument mid-stream, just change the `Instrument.txt` and click `Refresh` on the Browser Source in OBS. (you can use Streamer.bot + StreamDeck to [write the file](https://wiki.streamer.bot/en/Sub-Actions/File/Write-To-File) + [refresh the browser source](https://wiki.streamer.bot/en/Broadcasters/OBS/Requests/Additional-Request-Info/RefreshBrowserSource))
+
+### `TextAlignment.txt` - Change text position.
+
+1. On the extracted widget folder, go to `settings` folder, and open `TextAligment.txt` with a text or code editor.
+
+2. Place the alignment value and save.
+
+> **Available alignment values: (not case-sensitive)**
+>
+> `left` (default) - Shows album art and text left-to-right
+>
+> `right` - Shows album art and text right-to-left
+>
+> `center` - Shows album art and text left-to-right, but widget will be centered on canvas

@@ -47,6 +47,10 @@
             albumElement.dataset.small = displaySmallIcon.trim().toLowerCase()
         });
 
+        settings.get("textAlignment").then(textAlignment => {
+            mainContainer.dataset.alignment = textAlignment || "left";
+        });
+
         const songRender = new SongRender({
                 mainContainer: mainContainer,
                 songNameContainer: mainContainer?.querySelector("#songName"),
