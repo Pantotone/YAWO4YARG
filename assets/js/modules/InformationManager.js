@@ -1,4 +1,4 @@
-import { absolutePath, readFile } from "./Utils.js";
+import { absolutePath, readFile, writeFile } from "./Utils.js";
 import { LastFmAlbumArtDownloader } from "./LastFmAlbumArtDownloader.js";
 import * as Types from '../types.js';
 
@@ -169,10 +169,34 @@ export class InformationManager {
     }
 
     /**
-     * Loop function that is trigged by the global timer
+     * Loop function that is triggered by the global timer
      */
     async update() {
-        const newUpdate = await readFile(absolutePath(this.jsonPath));
+        const currentSongPath = absolutePath(this.jsonPath);
+
+        // Read the content of the file
+        let newUpdate = await readFile(currentSongPath);
+
+        if (newUpdate && newUpdate[0] === '"') {
+            // Remove all quotes
+            newUpdate = newUpdate.replace(/"/g, '');
+
+            // Replace "\\qPlaylist\\q:\\q" with "\\qPlaylist\\q:\\q\\q"
+            newUpdate = newUpdate.replace(/\\qPlaylist\\q:\\q/g, '\\qPlaylist\\q:\\q\\q');
+
+            // Replace "\\qSubPlaylist\\q:\\q" with "\\qSubPlaylist\\q:\\q\\q"
+            newUpdate = newUpdate.replace(/\\qSubPlaylist\\q:\\q/g, '\\qSubPlaylist\\q:\\q\\q');
+
+            // Replace "\\qLoadingPhrase\\q:\\q" with "\\qLoadingPhrase\\q:\\q\\q"
+            newUpdate = newUpdate.replace(/\\qLoadingPhrase\\q:\\q/g, '\\qLoadingPhrase\\q:\\q\\q');
+
+            // Replace "\\q" with an actual double quote
+            newUpdate = newUpdate.replace(/\\q/g, '"');
+
+            // Write the modified content back to the file
+            await writeFile(currentSongPath, newUpdate);
+        }
+
         const isUpdated = this.checkChanges(newUpdate);
 
         if(isUpdated) {
@@ -180,3 +204,5 @@ export class InformationManager {
         }
     }
 }
+
+export default InformationManager;
