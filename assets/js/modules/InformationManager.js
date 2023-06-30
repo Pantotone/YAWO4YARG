@@ -1,4 +1,4 @@
-import { absolutePath, readFile, writeFile } from "./Utils.js";
+import { absolutePath, readFile } from "./Utils.js";
 import { LastFmAlbumArtDownloader } from "./LastFmAlbumArtDownloader.js";
 import * as Types from '../types.js';
 
@@ -169,38 +169,37 @@ export class InformationManager {
     }
 
     /**
+     * Checks if the JSON is from RB3DX
+     * @param {string} raw 
+     * @returns {boolean}
+     */
+    checkIfRB3DX(raw) {
+        return raw[0] === "\"";
+    }
+
+    /**
+     * Fix RB3DX JSON to a valid JSON.
+     * @param {string} raw - Raw JSON content from RB3DX
+     * @returns {string} - Processed JSON
+     */
+    fixRB3DX(raw) {
+        const processed = raw
+        .replace(/"/g, "") // Remove previous double-quotes
+        .replace(/\\q/g, "\"") // Replace \q to an double-quote
+        .replace(/":",/g, "\":\"\","); // Fix non-closed double-quotes ("Playlist":",) -> ("Playlist":"",)
+
+        return processed;
+    }
+
+    /**
      * Loop function that is triggered by the global timer
      */
     async update() {
-        const currentSongPath = absolutePath(this.jsonPath);
-
-        // Read the content of the file
-        let newUpdate = await readFile(currentSongPath);
-
-        if (newUpdate && newUpdate[0] === '"') {
-            // Remove all quotes
-            newUpdate = newUpdate.replace(/"/g, '');
-
-            // Replace "\\qPlaylist\\q:\\q" with "\\qPlaylist\\q:\\q\\q"
-            newUpdate = newUpdate.replace(/\\qPlaylist\\q:\\q/g, '\\qPlaylist\\q:\\q\\q');
-
-            // Replace "\\qSubPlaylist\\q:\\q" with "\\qSubPlaylist\\q:\\q\\q"
-            newUpdate = newUpdate.replace(/\\qSubPlaylist\\q:\\q/g, '\\qSubPlaylist\\q:\\q\\q');
-
-            // Replace "\\qLoadingPhrase\\q:\\q" with "\\qLoadingPhrase\\q:\\q\\q"
-            newUpdate = newUpdate.replace(/\\qLoadingPhrase\\q:\\q/g, '\\qLoadingPhrase\\q:\\q\\q');
-
-            // Replace "\\q" with an actual double quote
-            newUpdate = newUpdate.replace(/\\q/g, '"');
-
-            // Write the modified content back to the file
-            await writeFile(currentSongPath, newUpdate);
-        }
-
+        const newUpdate = await readFile(absolutePath(this.jsonPath));
         const isUpdated = this.checkChanges(newUpdate);
 
         if(isUpdated) {
-            this._triggerUpdate(newUpdate);
+            this._triggerUpdate(this.checkIfRB3DX(newUpdate) ? this.fixRB3DX(newUpdate) : newUpdate);
         }
     }
 }
