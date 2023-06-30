@@ -169,14 +169,39 @@ export class InformationManager {
     }
 
     /**
-     * Loop function that is trigged by the global timer
+     * Checks if the JSON is from RB3DX
+     * @param {string} raw 
+     * @returns {boolean}
+     */
+    checkIfRB3DX(raw) {
+        return raw[0] === "\"";
+    }
+
+    /**
+     * Fix RB3DX JSON to a valid JSON.
+     * @param {string} raw - Raw JSON content from RB3DX
+     * @returns {string} - Processed JSON
+     */
+    fixRB3DX(raw) {
+        const processed = raw
+        .replace(/"/g, "") // Remove previous double-quotes
+        .replace(/\\q/g, "\"") // Replace \q to an double-quote
+        .replace(/":",/g, "\":\"\","); // Fix non-closed double-quotes ("Playlist":",) -> ("Playlist":"",)
+
+        return processed;
+    }
+
+    /**
+     * Loop function that is triggered by the global timer
      */
     async update() {
         const newUpdate = await readFile(absolutePath(this.jsonPath));
         const isUpdated = this.checkChanges(newUpdate);
 
         if(isUpdated) {
-            this._triggerUpdate(newUpdate);
+            this._triggerUpdate(this.checkIfRB3DX(newUpdate) ? this.fixRB3DX(newUpdate) : newUpdate);
         }
     }
 }
+
+export default InformationManager;
