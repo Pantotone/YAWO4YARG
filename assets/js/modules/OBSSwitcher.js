@@ -3,7 +3,7 @@ import { SettingsLoader } from './SettingsLoader.js';
 
 /**
  * Switches OBS scenes based if a song is being played.
- * @param {Types.currentSong} currentSong 
+ * @param {Types.ExtendedCurrentSong} currentSong 
  */
 export async function OBSSwitcher(currentSong) {
     if(typeof window == "undefined" || typeof window.document == "undefined" || !("obsstudio" in window)) return;

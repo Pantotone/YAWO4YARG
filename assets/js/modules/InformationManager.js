@@ -44,6 +44,14 @@ export class InformationManager {
     constructor(options) {
         this.applySettings(options);
         this.loadSourceCache();
+
+        this.onChange((currentSong) => {
+            try {
+                OBSSwitcher(currentSong);
+            } catch (e) {
+                console.error(e);
+            }
+        });
     }
 
     /**
@@ -143,12 +151,6 @@ export class InformationManager {
         try {
             /** @type {Types.currentSong} */
             const jsonObj = JSON.parse(updated);
-
-            try {
-                OBSSwitcher(jsonObj);
-            } catch (e) {
-                console.error(e);
-            }
 
             const AlbumArtURL = await this.getAlbumArt(jsonObj.Location) || await this.albumArtDownloader?.getImageUrl(jsonObj.Artist, jsonObj.Album);
 
