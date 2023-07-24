@@ -106,6 +106,8 @@ export class InformationManager {
      * @param {Types.PartDifficulties} songParts - Difficulty levels for every instrument on the chart
      */
     getSelectedInstrument(songParts) {
+        if(!songParts) return;
+
         const selected = this.selectedInstruments.find(instrument => songParts[instrument] > -1);
         return selected;
     }
