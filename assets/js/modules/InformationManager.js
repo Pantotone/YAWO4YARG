@@ -42,24 +42,7 @@ export class InformationManager {
      */
     constructor(options) {
         this.applySettings(options);
-
-        // Loading source index into memory
-        [
-            "https://raw.githubusercontent.com/YARC-Official/OpenSource/master/base/index.json",
-            "https://raw.githubusercontent.com/YARC-Official/OpenSource/master/extra/index.json"
-        ].forEach(jsonUrl => {
-
-            fetch(jsonUrl)
-            .then(res => res.json())
-            .then(sourceIndex => {
-                if(sourceIndex.type === "base") {
-                    this._baseSourceCache = sourceIndex;
-                } else {
-                    this._extraSourceCache = sourceIndex;
-                }
-            });
-
-        });
+        this.loadSourceCache();
     }
 
     /**
@@ -68,6 +51,26 @@ export class InformationManager {
      */
     applySettings(options) {
         Object.assign(this, options);
+    }
+
+    /**
+     * Fetches YARC-Official/OpenSource and saves on memory.
+     */
+    async loadSourceCache() {
+        [
+            "https://raw.githubusercontent.com/YARC-Official/OpenSource/master/base/index.json",
+            "https://raw.githubusercontent.com/YARC-Official/OpenSource/master/extra/index.json",
+        ].forEach(async jsonUrl => {
+
+            const sourceIndex = await fetch(jsonUrl).then(res => res.json());
+
+            if(sourceIndex.type === "base") {
+                this._baseSourceCache = sourceIndex;
+            } else {
+                this._extraSourceCache = sourceIndex;
+            }
+
+        });
     }
 
     /**
