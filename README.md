@@ -36,6 +36,8 @@ A Widget overlay compatible with [OBS](https://obsproject.com) (28.0.1 and newer
 - [`Instrument.txt` - Change current instrument.](#instrumenttxt---change-current-instrument)
 - [`TextAlignment.txt` - Change text position.](#textalignmenttxt---change-text-position)
 - [`LastFmAPIKey.txt` - Use Last.fm as a fallback when album art isn't available on chart.](#lastfmapikeytxt---use-lastfm-as-a-fallback-when-album-art-isnt-available-on-chart)
+- [`PlayingOBSSceneName.txt` - Change OBS Scene to Playing Scene when song is playing.](#playingobsscenenametxt---change-obs-scene-to-playing-scene-when-song-is-playing)
+- [`NotPlayingOBSSceneName.txt` - Change OBS Scene to Not Playing/Song Select Scene when song is not being played.](#notplayingobsscenenametxt---change-obs-scene-to-not-playingsong-select-scene-when-song-is-not-being-played)
 
 ### `DisplaySmallIcon.txt` - Change small icon beside the rim.
 
@@ -96,3 +98,22 @@ As for now, the widget isn't able to detect what instrument is being played. In 
 4. On the extracted widget folder, go to `settings` folder, and open `LastFmAPIKey.txt` with a text or code editor.
 
 5. Paste your API key, and save.
+
+### `PlayingOBSSceneName.txt` - Change OBS Scene to Playing Scene when song is playing.
+
+> **Warning** 
+> Still a bit experimental.
+
+1. On OBS Studio, get the name for the scene used when playing songs. (You can right click the scene, click `Rename` and copy to clipboard)
+
+2. Paste on the `PlayingOBSSceneName.txt` text file.
+
+3. Right-click on the YAWO4YARG browser source, and go to `Properties`.
+
+4. Scrolling to the bottom of the properties, set the `Page permissions` to `Advanced access to OBS`. (Needed to widget to change the current OBS Scene)
+
+5. Refresh the browser source.
+
+### `NotPlayingOBSSceneName.txt` - Change OBS Scene to Not Playing/Song Select Scene when song is not being played.
+
+Follow the same steps on [`PlayingOBSSceneName.txt` - Change OBS Scene to Playing Scene when song is playing.](#playingobsscenenametxt---change-obs-scene-to-playing-scene-when-song-is-playing), except now it's for the Not Playing/Song Select Scene.

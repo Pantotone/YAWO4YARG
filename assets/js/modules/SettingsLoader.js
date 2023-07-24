@@ -39,6 +39,8 @@ export class SettingsLoader {
     async load() {
         const loaders = [
             this.loadAsString("CurrentSongFilePath.txt", "currentSongFilePath"),
+            this.loadAsString("PlayingOBSSceneName.txt", "playingOBSSceneName"),
+            this.loadAsString("NotPlayingOBSSceneName.txt", "notPlayingOBSSceneName"),
             this.loadAsString("DisplaySmallIcon.txt", "displaySmallIcon"),
             this.loadAsString("TextAlignment.txt", "textAlignment"),
             this.loadAsString("LastFmAPIKey.txt", "lastFmAPIKey"),

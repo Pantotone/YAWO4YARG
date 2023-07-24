@@ -1,6 +1,7 @@
 import { absolutePath, readFile } from "./Utils.js";
 import { LastFmAlbumArtDownloader } from "./LastFmAlbumArtDownloader.js";
 import * as Types from '../types.js';
+import { OBSSwitcher } from "./OBSSwitcher.js";
 
 /**
  * @typedef {Object} InformationManagerOptions
@@ -142,6 +143,12 @@ export class InformationManager {
         try {
             /** @type {Types.currentSong} */
             const jsonObj = JSON.parse(updated);
+
+            try {
+                OBSSwitcher(jsonObj);
+            } catch (e) {
+                console.error(e);
+            }
 
             const AlbumArtURL = await this.getAlbumArt(jsonObj.Location) || await this.albumArtDownloader?.getImageUrl(jsonObj.Artist, jsonObj.Album);
 
