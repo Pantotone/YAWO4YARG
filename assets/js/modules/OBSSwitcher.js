@@ -1,6 +1,8 @@
 import * as Types from '../types.js';
 import { SettingsLoader } from './SettingsLoader.js';
 
+let latestSongName = "";
+
 /**
  * Switches OBS scenes based if a song is being played.
  * @param {Types.ExtendedCurrentSong} currentSong 
@@ -16,6 +18,7 @@ export async function OBSSwitcher(currentSong) {
     if(currentSong?.Name) {
         
         if(!playingOBSSceneName) return;
+        if(currentSong?.Name == latestSongName) return;
 
         try {
             // @ts-ignore
@@ -36,4 +39,6 @@ export async function OBSSwitcher(currentSong) {
         }
 
     }
+
+    latestSongName = currentSong?.Name;
 }
